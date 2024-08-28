@@ -19,14 +19,12 @@ const useFecth = (url) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        setError(error);
         setIsLoading(false);
-
-        console.log(error);
+        setError(error.message);
       });
   }, [url]);
 
-  return { data, error, isLoading };
+  return [data, error, isLoading];
 };
 
 export default useFecth;

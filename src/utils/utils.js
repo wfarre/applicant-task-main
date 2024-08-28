@@ -10,3 +10,19 @@ export const convertTimeToSeconds = (time) => {
 
   return totalTime;
 };
+
+export const sortDataBy = (dataToSort, type) =>
+  dataToSort.sort((a, b) => {
+    const timeA = convertTimeToSeconds(a[type]);
+    const timeB = convertTimeToSeconds(b[type]);
+    return timeA - timeB;
+  });
+
+export const getBestAthleteInOneCategory = (array, category) => {
+  const newArray = array?.filter(
+    (athlete) =>
+      athlete[category] !== "00:00:00" && athlete[category] !== "23:59:59"
+  );
+  const sortedData = sortDataBy(newArray, category);
+  return sortedData[0];
+};

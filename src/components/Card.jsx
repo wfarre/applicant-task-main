@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 
 const Card = ({ athleteTime, athleteName, category, icon }) => {
   return (
-    <article className=" bg-zinc-200 rounded-2xl px-2 py-3 max-w-80">
+    <article className=" bg-zinc-200 rounded-2xl px-2 py-3 max-w-80 w-80">
       <div className="flex gap-3 justify-center mb-6">
         <div className="relative h-6 w-6">
           {/* <FontAwesomeIcon

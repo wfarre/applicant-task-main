@@ -93,7 +93,7 @@ function App() {
         <Loader />
       ) : (
         <>
-          <header className=" bg-zinc-900 text-white pt-6 pb-6 mb-8">
+          <header className=" bg-zinc-900 text-white pt-6 pb-6 mb-8 w-full">
             <h1 className=" text-5xl font-semibold text-center  uppercase">
               Results
             </h1>
@@ -104,11 +104,11 @@ function App() {
               <p className="text-center text-xl">{error}</p>
             ) : (
               <>
-                <section className="mb-8" id="best-times">
+                <section className="mb-8 w-full" id="best-times">
                   <h2 className=" text-2xl font-bold text-center mb-5">
                     Best time by category
                   </h2>
-                  <ul className="flex justify-center gap-8 flex-wrap">
+                  <ul className="flex justify-center gap-8 flex-wrap w-full">
                     {bestTimes.map((bestTime, index) => {
                       return (
                         <li key={"bestTime" + index}>
@@ -123,27 +123,37 @@ function App() {
                     })}
                   </ul>
                 </section>
-                <section id="table">
-                  <table className="w-full">
+                <section className="w-full" id="table">
+                  <table className="table-fixed text-[13px] w-full">
                     <thead className="text-left bg-zinc-900 text-white ">
                       <tr>
-                        <th className="px-1 py-2">First Name</th>
-                        <th>Last Name</th>
-                        <th>Gender</th>
-                        <th>Division</th>
-                        <th>Nationality</th>
+                        <th className="px-1 py-2 sm:px-0 ">First Name</th>
+                        <th className="">Last Name</th>
+                        <th className="text-ellipsis overflow-hidden">
+                          Gender
+                        </th>
+                        <th className="text-ellipsis overflow-hidden">
+                          Division
+                        </th>
+                        <th className="text-ellipsis overflow-hidden">
+                          Nationality
+                        </th>
                         <th>Time</th>
                       </tr>
                     </thead>
                     <tbody id="table-body">
                       {users?.map((user, index) => {
                         return (
-                          <tr key={user.lastName + index} className="py-2">
-                            <td>{user.firstName}</td>
-                            <td>{user.lastName}</td>
-                            <td>{user.gender}</td>
-                            <td>{user.division}</td>
-                            <td>{user.nationality}</td>
+                          <tr key={user.lastName + index}>
+                            <td className="text-ellipsis overflow-hidden">
+                              {user.firstName}
+                            </td>
+                            <td className="text-ellipsis overflow-hidden">
+                              {user.lastName}
+                            </td>
+                            <td className="">{user.gender}</td>
+                            <td className="">{user.division}</td>
+                            <td className="">{user.nationality}</td>
                             <td>{user.totalTime}</td>
                           </tr>
                         );

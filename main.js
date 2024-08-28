@@ -10,6 +10,8 @@ const wrapper = document.querySelector("#table-body");
 
 fetchResults().then((resp) => {
   resp.json().then((data) => {
+    console.log(data);
+
     data.forEach((result) => {
       const row = document.createElement("tr");
       row.innerHTML = `

@@ -13,10 +13,8 @@ import Error from "./components/Error";
 import RankingTable from "./components/RankingTable";
 import { Header } from "./components/Header";
 import GoTopButton from "./components/GoTopButton";
-// import Footer from "./components/Footer";
 
 const Footer = lazy(() => import("./components/Footer"));
-// const Card = lazy(() => import("./components/Card"));
 
 function App() {
   const [allUsers, setAllUsers] = useState();
@@ -101,14 +99,12 @@ function App() {
                     {bestTimes.map((bestTime, index) => {
                       return (
                         <li key={"bestTime" + index}>
-                          {/* <Suspense> */}
                           <Card
                             athleteTime={bestTime?.time}
                             athleteName={bestTime?.athleteName}
                             icon={bestTime?.icon}
                             category={bestTime?.category}
                           />
-                          {/* </Suspense> */}
                         </li>
                       );
                     })}

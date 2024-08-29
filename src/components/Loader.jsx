@@ -1,8 +1,8 @@
-import logo from "../assets/xterra-logo.svg";
+import logo from "../assets/images/xterra-logo.svg";
 
 const Loader = () => {
   return (
-    <div className="fixed flex justify-center items-center  bg-zinc-900 h-full w-full top-0 left-0">
+    <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-zinc-900">
       <img className="animate-pulse" src={logo} alt="loading" />
     </div>
   );

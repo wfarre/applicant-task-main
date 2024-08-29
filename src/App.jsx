@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import useFecth from "./hooks/useFetch";
 import Loader from "./components/Loader";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPersonBiking,
   faRunning,
@@ -11,6 +9,7 @@ import {
 import UserFactory from "./utils/Factories/UserFactory";
 import Card from "./components/Card";
 import { getBestAthleteInOneCategory, sortDataBy } from "./utils/utils";
+import Error from "./components/Error";
 
 function App() {
   const [allUsers, setAllUsers] = useState();
@@ -20,7 +19,7 @@ function App() {
   const [bestRunner, setBestRunner] = useState();
 
   const [data, error, isLoading] = useFecth(
-    "https://core.xterraplanet.com/api/application-task/cee4389b-1668-4e39-b500-3572f0982b09"
+    "https://core.xterraplanet.com/api/application-task/cee4389b-1668-4e39-b500-3572f0982b09",
   );
 
   useEffect(() => {
@@ -33,15 +32,10 @@ function App() {
   useEffect(() => {
     if (allUsers) {
       const filteredUsers = allUsers.filter(
-        (user) => user.totalTime !== "00:00:00" && user.totalTime !== "23:59:59"
+        (user) =>
+          user.totalTime !== "00:00:00" && user.totalTime !== "23:59:59",
       );
-      const sortedData = sortDataBy(filteredUsers, "totalTime");
-      setUsers(sortedData);
-    }
-  }, [allUsers]);
-
-  useEffect(() => {
-    if (allUsers) {
+      setUsers(sortDataBy(filteredUsers, "totalTime"));
       setBestSwimmer(getBestAthleteInOneCategory(allUsers, "swimTime"));
       setBestRunner(getBestAthleteInOneCategory(allUsers, "runTime"));
       setBestBiker(getBestAthleteInOneCategory(allUsers, "bikeTime"));
@@ -50,65 +44,51 @@ function App() {
 
   const bestTimes = [
     {
-      category: "Fastest Runner",
+      category: "Fastest Run",
       athleteName:
         bestRunner && bestRunner?.firstName + " " + bestRunner?.lastName,
       time: bestRunner && bestRunner?.runTime,
-      icon: (
-        <FontAwesomeIcon
-          className="absolute text-red-600 w-full h-full left-0 top-0"
-          icon={faRunning}
-        />
-      ),
+      icon: faRunning,
     },
     {
       category: "Fastest Ride",
       athleteName:
         bestBiker && bestBiker?.firstName + " " + bestBiker?.lastName,
       time: bestBiker && bestBiker?.bikeTime,
-      icon: (
-        <FontAwesomeIcon
-          className="absolute text-red-600 w-full h-full left-0 top-0"
-          icon={faPersonBiking}
-        />
-      ),
+      icon: faPersonBiking,
     },
     {
-      category: "Fastest Swimmer",
+      category: "Fastest Swim",
       athleteName:
         bestSwimmer && bestSwimmer?.firstName + " " + bestSwimmer?.lastName,
       time: bestSwimmer && bestSwimmer?.swimTime,
-      icon: (
-        <FontAwesomeIcon
-          className="absolute text-red-600 w-full h-full left-0 top-0"
-          icon={faSwimmer}
-        />
-      ),
+      icon: faSwimmer,
     },
   ];
 
   return (
-    <div className="relative">
+    // <div className="relative">
+    <>
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          <header className=" bg-zinc-900 text-white pt-6 pb-6 mb-8 w-full">
-            <h1 className=" text-5xl font-semibold text-center  uppercase">
+          <header className="mb-8 w-full bg-zinc-900 pb-6 pt-6 text-white">
+            <h1 className="text-center text-5xl font-semibold uppercase">
               Results
             </h1>
           </header>
 
           <main>
             {error ? (
-              <p className="text-center text-xl">{error}</p>
+              <Error errorMsg={error} />
             ) : (
               <>
                 <section className="mb-8 w-full" id="best-times">
-                  <h2 className=" text-2xl font-bold text-center mb-5">
+                  <h2 className="mb-5 text-center text-2xl font-bold">
                     Best time by category
                   </h2>
-                  <ul className="flex justify-center gap-8 flex-wrap w-full">
+                  <ul className="flex w-full flex-wrap justify-center gap-8">
                     {bestTimes.map((bestTime, index) => {
                       return (
                         <li key={"bestTime" + index}>
@@ -123,19 +103,19 @@ function App() {
                     })}
                   </ul>
                 </section>
-                <section className="w-full" id="table">
-                  <table className="table-fixed text-[13px] w-full">
-                    <thead className="text-left bg-zinc-900 text-white ">
+                <section className="mb-6 w-full" id="table">
+                  <table className="w-full table-fixed text-sm sm:text-base">
+                    <thead className="bg-zinc-900 py-2 text-left text-white">
                       <tr>
-                        <th className="px-1 py-2 sm:px-0 ">First Name</th>
+                        <th className="">First Name</th>
                         <th className="">Last Name</th>
-                        <th className="text-ellipsis overflow-hidden">
+                        <th className="overflow-hidden text-ellipsis">
                           Gender
                         </th>
-                        <th className="text-ellipsis overflow-hidden">
+                        <th className="overflow-hidden text-ellipsis">
                           Division
                         </th>
-                        <th className="text-ellipsis overflow-hidden">
+                        <th className="overflow-hidden text-ellipsis">
                           Nationality
                         </th>
                         <th>Time</th>
@@ -145,15 +125,15 @@ function App() {
                       {users?.map((user, index) => {
                         return (
                           <tr key={user.lastName + index}>
-                            <td className="text-ellipsis overflow-hidden">
+                            <td className="overflow-hidden text-ellipsis">
                               {user.firstName}
                             </td>
-                            <td className="text-ellipsis overflow-hidden">
+                            <td className="overflow-hidden text-ellipsis">
                               {user.lastName}
                             </td>
-                            <td className="">{user.gender}</td>
-                            <td className="">{user.division}</td>
-                            <td className="">{user.nationality}</td>
+                            <td>{user.gender}</td>
+                            <td>{user.division}</td>
+                            <td>{user.nationality}</td>
                             <td>{user.totalTime}</td>
                           </tr>
                         );
@@ -166,7 +146,8 @@ function App() {
           </main>
         </>
       )}
-    </div>
+    </>
+    // </div>
   );
 }
 

@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 const useFecth = (url) => {
   const [data, setData] = useState();
   const [error, setError] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
     fetch(url)
       .then((res) => {
         if (res.status === 500) {

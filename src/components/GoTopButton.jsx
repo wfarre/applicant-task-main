@@ -16,6 +16,7 @@ const GoTopButton = ({ goTop }) => {
           className="text-xl text-white"
           icon={faAngleDoubleUp}
         />
+        <span className="hidden">Go to the top of the page</span>
       </button>
     </aside>
   );

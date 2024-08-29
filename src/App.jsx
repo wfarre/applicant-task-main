@@ -12,8 +12,8 @@ import { getBestAthleteInOneCategory, sortDataBy } from "./utils/utils";
 import Error from "./components/Error";
 import RankingTable from "./components/RankingTable";
 import { Header } from "./components/Header";
-import logo from "./assets/images/xterra-logo.svg";
 import GoTopButton from "./components/GoTopButton";
+import Footer from "./components/Footer";
 
 function App() {
   const [allUsers, setAllUsers] = useState();
@@ -115,18 +115,9 @@ function App() {
               </>
             )}
           </main>
+          <Footer />
         </>
       )}
-
-      <footer className="absolute bottom-0 left-0 w-full bg-zinc-900 py-6">
-        <div className="relative mx-auto h-4">
-          <img
-            className="absolute left-0 top-0 h-full w-full"
-            src={logo}
-            alt="logo xterra"
-          />
-        </div>
-      </footer>
     </>
   );
 }

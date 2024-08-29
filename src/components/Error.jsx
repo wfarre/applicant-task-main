@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
-import errorImg from "../assets/images/undraw_server_down.svg";
-import { Suspense } from "react";
+const errorImg = lazy(() => import("../assets/images/undraw_server_down.svg"));
+
+import { lazy, Suspense } from "react";
 
 const Error = ({ errorMsg }) => {
   return (

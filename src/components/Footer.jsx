@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import logo from "../assets/images/xterra-logo.svg";
+import { lazy, Suspense } from "react";
+const logo = lazy(() => import("../assets/images/xterra-logo.svg"));
 
 const Footer = () => {
   return (

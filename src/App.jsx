@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useFecth from "./hooks/useFetch";
 import Loader from "./components/Loader";
 import {
@@ -10,6 +10,10 @@ import UserFactory from "./utils/Factories/UserFactory";
 import Card from "./components/Card";
 import { getBestAthleteInOneCategory, sortDataBy } from "./utils/utils";
 import Error from "./components/Error";
+import RankingTable from "./components/RankingTable";
+import { Header } from "./components/Header";
+import logo from "./assets/images/xterra-logo.svg";
+import GoTopButton from "./components/GoTopButton";
 
 function App() {
   const [allUsers, setAllUsers] = useState();
@@ -17,6 +21,8 @@ function App() {
   const [bestSwimmer, setBestSwimmer] = useState();
   const [bestBiker, setBestBiker] = useState();
   const [bestRunner, setBestRunner] = useState();
+
+  const topRef = useRef();
 
   const [data, error, isLoading] = useFecth(
     "https://core.xterraplanet.com/api/application-task/cee4389b-1668-4e39-b500-3572f0982b09",
@@ -67,23 +73,23 @@ function App() {
   ];
 
   return (
-    // <div className="relative">
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <>
-          <header className="mb-8 w-full bg-zinc-900 pb-6 pt-6 text-white">
-            <h1 className="text-center text-5xl font-semibold uppercase">
-              Results
-            </h1>
-          </header>
-
-          <main>
+          <div ref={topRef}></div>
+          <Header />
+          <main className="relative">
             {error ? (
               <Error errorMsg={error} />
             ) : (
               <>
+                <GoTopButton
+                  goTop={() =>
+                    topRef.current.scrollIntoView({ behavior: "smooth" })
+                  }
+                />
                 <section className="mb-8 w-full" id="best-times">
                   <h2 className="mb-5 text-center text-2xl font-bold">
                     Best time by category
@@ -103,51 +109,25 @@ function App() {
                     })}
                   </ul>
                 </section>
-                <section className="mb-6 w-full" id="table">
-                  <table className="w-full table-fixed text-sm sm:text-base">
-                    <thead className="bg-zinc-900 py-2 text-left text-white">
-                      <tr>
-                        <th className="">First Name</th>
-                        <th className="">Last Name</th>
-                        <th className="overflow-hidden text-ellipsis">
-                          Gender
-                        </th>
-                        <th className="overflow-hidden text-ellipsis">
-                          Division
-                        </th>
-                        <th className="overflow-hidden text-ellipsis">
-                          Nationality
-                        </th>
-                        <th>Time</th>
-                      </tr>
-                    </thead>
-                    <tbody id="table-body">
-                      {users?.map((user, index) => {
-                        return (
-                          <tr key={user.lastName + index}>
-                            <td className="overflow-hidden text-ellipsis">
-                              {user.firstName}
-                            </td>
-                            <td className="overflow-hidden text-ellipsis">
-                              {user.lastName}
-                            </td>
-                            <td>{user.gender}</td>
-                            <td>{user.division}</td>
-                            <td>{user.nationality}</td>
-                            <td>{user.totalTime}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                <section className="w-full pb-32" id="table">
+                  <RankingTable users={users} />
                 </section>
               </>
             )}
           </main>
         </>
       )}
+
+      <footer className="absolute bottom-0 left-0 w-full bg-zinc-900 py-6">
+        <div className="relative mx-auto h-4">
+          <img
+            className="absolute left-0 top-0 h-full w-full"
+            src={logo}
+            alt="logo xterra"
+          />
+        </div>
+      </footer>
     </>
-    // </div>
   );
 }
 

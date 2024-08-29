@@ -4,7 +4,13 @@ import errorImg from "../assets/images/undraw_server_down.svg";
 const Error = ({ errorMsg }) => {
   return (
     <section className="mx-6 my-6 md:mx-36">
-      <img src={errorImg} alt="" />
+      <div className="relative mx-auto aspect-[1119/699] w-full max-w-96">
+        <img
+          className="absolute left-0 top-0 h-full w-full"
+          src={errorImg}
+          alt=""
+        />
+      </div>
       <p className="mt-6 text-center text-xl">{errorMsg}</p>
     </section>
   );

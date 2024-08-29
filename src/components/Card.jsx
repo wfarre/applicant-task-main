@@ -15,10 +15,12 @@ const Card = ({ athleteTime, athleteName, category, icon }) => {
         <h3 className="font-bold">{category}</h3>
       </div>
 
-      <ul className="flex flex-wrap justify-between">
+      <ul className="flex justify-between">
         <li className="flex items-center gap-3">
           <FontAwesomeIcon className="text-zinc-900" icon={faUser} />
-          <p>{athleteName ? athleteName : "-- --"}</p>
+          <p className="overflow-hidden text-ellipsis">
+            {athleteName ? athleteName : "-- --"}
+          </p>
         </li>
         <li className="flex items-center gap-3">
           <FontAwesomeIcon className="text-zinc-900" icon={faStopwatch} />

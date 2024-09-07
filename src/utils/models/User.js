@@ -1,3 +1,5 @@
+import { Time } from "./Time";
+
 export default class User {
   constructor(data) {
     this._lastName = data.last_name;
@@ -30,18 +32,18 @@ export default class User {
   }
 
   get totalTime() {
-    return this._totalTime;
+    return new Time({ time: this._totalTime });
   }
 
   get swimTime() {
-    return this._splits[0].time;
+    return new Time({ time: this._splits[0].time });
   }
 
   get bikeTime() {
-    return this._splits[1].time;
+    return new Time({ time: this._splits[1].time });
   }
 
   get runTime() {
-    return this._splits[2].time;
+    return new Time({ time: this._splits[2].time });
   }
 }

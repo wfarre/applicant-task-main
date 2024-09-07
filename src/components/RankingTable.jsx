@@ -30,7 +30,7 @@ const RankingTable = ({ users }) => {
               <td className="overflow-hidden text-ellipsis">
                 {user.nationality}
               </td>
-              <td>{user.totalTime}</td>
+              <td>{user.totalTime.time}</td>
             </tr>
           );
         })}

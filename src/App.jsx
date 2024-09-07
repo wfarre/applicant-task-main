@@ -8,7 +8,11 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import UserFactory from "./utils/Factories/UserFactory";
 import Card from "./components/Card";
-import { getBestAthleteInOneCategory, sortDataBy } from "./utils/utils";
+import {
+  filterUsersToDisplaBySearch,
+  getBestAthletes,
+  sortDataBy,
+} from "./utils/utils";
 import Error from "./components/Error";
 import RankingTable from "./components/RankingTable";
 import { Header } from "./components/Header";
@@ -17,11 +21,12 @@ import GoTopButton from "./components/GoTopButton";
 const Footer = lazy(() => import("./components/Footer"));
 
 function App() {
-  const [allUsers, setAllUsers] = useState();
-  const [users, setUsers] = useState();
+  const [allUsers, setAllUsers] = useState([]);
+  const [users, setUsers] = useState([]);
   const [bestSwimmer, setBestSwimmer] = useState();
   const [bestBiker, setBestBiker] = useState();
   const [bestRunner, setBestRunner] = useState();
+  const [lastNameInput, setLastNameInput] = useState("");
 
   const topRef = useRef();
 
@@ -38,37 +43,40 @@ function App() {
 
   useEffect(() => {
     if (allUsers) {
-      const filteredUsers = allUsers.filter(
-        (user) =>
-          user.totalTime !== "00:00:00" && user.totalTime !== "23:59:59",
+      const filteredUsers = filterUsersToDisplaBySearch(
+        allUsers,
+        lastNameInput,
       );
       setUsers(sortDataBy(filteredUsers, "totalTime"));
-      setBestSwimmer(getBestAthleteInOneCategory(allUsers, "swimTime"));
-      setBestRunner(getBestAthleteInOneCategory(allUsers, "runTime"));
-      setBestBiker(getBestAthleteInOneCategory(allUsers, "bikeTime"));
+
+      const bestAthletes = getBestAthletes(allUsers);
+
+      setBestSwimmer(bestAthletes.swimTime);
+      setBestBiker(bestAthletes.bikeTime);
+      setBestRunner(bestAthletes.runTime);
     }
-  }, [allUsers]);
+  }, [allUsers, lastNameInput]);
 
   const bestTimes = [
     {
       category: "Fastest Run",
       athleteName:
         bestRunner && bestRunner?.firstName + " " + bestRunner?.lastName,
-      time: bestRunner && bestRunner?.runTime,
+      time: bestRunner && bestRunner?.runTime.time,
       icon: faRunning,
     },
     {
       category: "Fastest Ride",
       athleteName:
         bestBiker && bestBiker?.firstName + " " + bestBiker?.lastName,
-      time: bestBiker && bestBiker?.bikeTime,
+      time: bestBiker && bestBiker?.bikeTime.time,
       icon: faPersonBiking,
     },
     {
       category: "Fastest Swim",
       athleteName:
         bestSwimmer && bestSwimmer?.firstName + " " + bestSwimmer?.lastName,
-      time: bestSwimmer && bestSwimmer?.swimTime,
+      time: bestSwimmer && bestSwimmer?.swimTime.time,
       icon: faSwimmer,
     },
   ];
@@ -81,6 +89,15 @@ function App() {
         <>
           <div ref={topRef}></div>
           <Header />
+          <label>
+            Search
+            <input
+              name="lastName"
+              id="lastName"
+              className="border border-solid border-black"
+              onChange={(e) => setLastNameInput(e.target.value)}
+            />
+          </label>
           <main className="relative">
             {error ? (
               <Error errorMsg={error} />
